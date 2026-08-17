@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SHORTCUT</title>
+
+    <style>
+        body {
+            background: black;
+            color: #00ff00;
+            font-family: monospace;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        input {
+            background: black;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 15px;
+            width: 300px;
+            font-family: monospace;
+            font-size: 18px;
+        }
+
+        button {
+            background: black;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 15px 25px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-family: monospace;
+        }
+
+        #result {
+            margin-top: 40px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>SHORTCUT.exe</h1>
+
+    <p>What's your shortcut?</p>
+
+    <input 
+        type="text" 
+        id="shortcut"
+        placeholder="Type your shortcut..."
+    >
+
+    <br>
+
+    <button onclick="checkShortcut()">ENTER</button>
+
+    <div id="result"></div>
+
+    <script>
+
+        let level = 0;
+
+        function checkShortcut() {
+
+            let shortcut = document.getElementById("shortcut").value;
+
+            if (shortcut === "") {
+                alert("Type a shortcut first!");
+                return;
+            }
+
+            level++;
+
+            if (level === 1) {
+
+                document.getElementById("result").innerHTML =
+                    "<h2>🤖 AI 01 UNLOCKED</h2>" +
+                    "<p>آيتك هنا</p>" +
+                    "<p>Ready for the next shortcut?</p>";
+
+            }
+
+            else if (level === 2) {
+
+                document.getElementById("result").innerHTML =
+                    "<h2>🤖 AI 02 UNLOCKED</h2>" +
+                    "<p>آيتك الثانية هنا</p>" +
+                    "<p>One more shortcut...</p>";
+
+            }
+
+            else if (level === 3) {
+
+                document.getElementById("result").innerHTML =
+                    "<h2>🤖 AI 03 UNLOCKED</h2>" +
+                    "<p>آيتك الثالثة هنا</p>" +
+                    "<p>🎉 You found the final shortcut!</p>";
+
+            }
+
+            document.getElementById("shortcut").value = "";
+        }
+
+    </script>
+
+</body>
+</html>
