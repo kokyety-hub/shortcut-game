@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SHORTCUT</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             background: black;
@@ -18,7 +18,8 @@
             color: #00ff00;
             border: 1px solid #00ff00;
             padding: 15px;
-            width: 300px;
+            width: 80%;
+            max-width: 300px;
             font-family: monospace;
             font-size: 18px;
         }
@@ -43,33 +44,39 @@
 <body>
 
     <h1>SHORTCUT.exe</h1>
- <p dir="rtl" style="font-size: 20px; color: #ffffff; line-height: 1.6; max-width: 600px; margin: 15px auto;">
-  ازيكم احنا فريق shortcut عاملين ليكم اللعبة دي عشان نوصلكم رسالة من اية جميلة❤️ اكتب shortcut اللي تحبها و استني الاية اللي هتجيلك...❤️
-</p>
+    <p dir="rtl" style="font-size: 20px; color: #ffffff; line-height: 1.6; max-width: 600px; margin: 15px auto;">
+        ازيكم احنا فريق shortcut عاملين ليكم اللعبة دي عشان نوصلكم رسالة من اية جميلة❤️ اكتب shortcut اللي تحبها و استني الاية اللي هتجيلك...❤️
+    </p>
     <p>What's your shortcut?</p>
 
-   <input
-    type="text"
-    id="shortcut"
-    placeholder="Type your shortcut..."
-    onkeydown="if(event.key==='Enter') checkShortcut()"
->
-
-    <br>
-
-    <button onclick="checkShortcut()">ENTER</button>
+    <!-- استخدام form مخصص لمنع مشكلة الآيفون نهائياً -->
+    <form onsubmit="checkShortcut(event)">
+        <input
+            type="text"
+            id="shortcut"
+            placeholder="Type your shortcut..."
+            enterkeyhint="go"
+            autocomplete="off"
+        >
+        <br>
+        <button type="submit">ENTER</button>
+    </form>
 
     <div id="result"></div>
 
     <script>
-
         let level = 0;
 
-        function checkShortcut() {
+        function checkShortcut(event) {
+            // منع الـ Refresh ومسح الحروف في الآيفون
+            if (event) {
+                event.preventDefault();
+            }
 
-            let shortcut = document.getElementById("shortcut").value;
+            let shortcutInput = document.getElementById("shortcut");
+            let shortcut = shortcutInput.value;
 
-            if (shortcut === "") {
+            if (shortcut.trim() === "") {
                 alert("Type a shortcut first!");
                 return;
             }
@@ -77,33 +84,28 @@
             level++;
 
             if (level === 1) {
-
                 document.getElementById("result").innerHTML =
-                    "<p>الرَّبُّ رَاعِيَّ فَلاَ يُعْوِزُنِي شَيْءٌ.مز1:23</p>" +
+                    "<h2>🤖 AI 01 UNLOCKED</h2>" +
+                    "<p>الرَّبُّ رَاعِيَّ فَلَا يُعْوِزُنِي شَيْءٌ. مز1:23</p>" +
                     "<p>Ready for the next shortcut?</p>";
-
             }
-
             else if (level === 2) {
-
                 document.getElementById("result").innerHTML =
                     "<h2>🤖 AI 02 UNLOCKED</h2>" +
-                    "<p>آيتك الثانية هنا</p>" +
+                    "<p>سَلاَمًا أَتْرُكُ لَكُمْ. سَلاَمِي أُعْطِيكُمْ. يوحنا 14: 27</p>" +
                     "<p>One more shortcut...</p>";
-
             }
-
             else if (level === 3) {
-
                 document.getElementById("result").innerHTML =
                     "<h2>🤖 AI 03 UNLOCKED</h2>" +
-                    "<p>آيتك الثالثة هنا</p>" +
+                    "<p>أَنَا هُوَ نُورُ الْعَالَمِ. يوحنا 8: 12</p>" +
                     "<p>🎉 You found the final shortcut!</p>";
-
             }
 
-            document.getElementById("shortcut").value = "";
+            shortcutInput.value = "";
+            shortcutInput.blur(); // إخفاء كيبورد الآيفون بعد الضغط
         }
-</script>
+    </script>
+
 </body>
-</html
+</html>
