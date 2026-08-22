@@ -36,6 +36,28 @@ body::before {
     transform: scale(1.2);
     z-index: -1;
 }
+#result {
+    width: 85%;
+    max-width: 650px;
+    margin: 15px auto;
+    padding: 15px;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+}
+
+#result p {
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+    text-align: center;
+    unicode-bidi: isolate;
+    font-weight: 800;
+    -webkit-text-stroke: 0.5px;
+    text-shadow: 0.2px 0.2px 0px currentColor;
+}
         input {
             background: black;
             color: #00ff00;
@@ -87,23 +109,24 @@ body::before {
         <button type="submit">ENTER</button>
     </form>
 
-    <div id="result"></div>
+ <div id="result" dir="rtl"></div>
 <script>
-    // 1. قاموس الحروف والآيات
-    const versesMap = {
-        'Z': 'توبني ',
-        'b': 'لا اهملك ولا اتركك',
-        'w': 'كما كنت مع موسي اكون معك',
-        'r': 'الرَّبُّ رَاعِيَّ فَلَا يُعْوِزُنِي شَيْءٌ. (مز 23: 1)',
-        's': 'سَلاَمًا أَتْرُكُ لَكُمْ. سَلاَمِي أُعْطِيكُمْ. (يوحنا 14: 27)',
-        'c': 'طوبي للرجل',
-        'm': 'الله محبة',
-        'f':[ 'وَتَطْلُبُونَنِي فَتَجِدُونَنِي إِذْ تَطْلُبُونَنِي بِكُلِّ قَلْبِكُمْ. (سفر إرميا13:29)',
-             ' (سفر المزامير10:34) الأَشْبَالُ احْتَاجَتْ وَجَاعَتْ، وَأَمَّا طَالِبُو الرَّبِّ فَلاَ يُعْوِزُهُمْ شَيْءٌ مِنَ الْخَيْرِ' ,
-            '(6 اُطْلُبُوا الرَّبَّ مَا دَامَ يُوجَدُ. ادْعُوهُ وَهُوَ قَرِيبٌ. (سفر إشعياء6:55',
-            '(27 لِكَيْ يَطْلُبُوا اللهَ لَعَلَّهُمْ يَتَلَمَّسُونَهُ فَيَجِدُوهُ، مَعَ أَنَّهُ عَنْ كُلِّ وَاحِدٍ مِنَّا لَيْسَ بَعِيدًا. (سفر أعمال الرسل27:17'
-        ]
-    };
+      const versesMap = {
+    'z': 'تُوبُونِي فَأَتُوبَ.<br><small>(سفر إرميا 31: 18)</small>',
+    'b': 'لاَ أُهْمِلُكَ وَلاَ أَتْرُكُكَ.<br><small>(سفر يشوع 1: 5)</small>',
+    'w': 'كَمَا كُنْتُ مَعَ مُوسَى أَكُونُ مَعَكَ.<br><small>(سفر يشوع 1: 5)</small>',
+    'r': 'الرَّبُّ رَاعِيَّ فَلاَ يَعْوِزُنِي شَيْءٌ.<br><small>(سفر المزامير 23: 1)</small>',
+    's': 'سَلاَمًا أَتْرُكُ لَكُمْ. سَلاَمِي أُعْطِيكُمْ.<br><small>(إنجيل يوحنا 14: 27)</small>',
+    'c': 'طُوبَى لِلرَّجُلِ الَّذِي يَتَّكِلُ عَلَى الرَّبِّ.<br><small>(سفر إرميا 17: 7)</small>',
+    'm': 'اَللَّهُ مَحَبَّةٌ.<br><small>(رسالة يوحنا الأولى 4: 8)</small>',
+    'f': [
+        'وَتَطْلُبُونَنِي فَتَجِدُونَنِي إِذْ تَطْلُبُونَنِي بِكُلِّ قَلْبِكُمْ.<br><small>(سفر إرميا 29: 13)</small>',
+        'وَأَمَّا طَالِبُو الرَّبِّ فَلاَ يُعْوِزُهُمْ شَيْءٌ مِنَ الْخَيْرِ.<br><small>(سفر المزامير 34: 10)</small>',
+        'أُطْلُبُوا الرَّبَّ مَا دَامَ يُوجَدُ. ادْعُوهُ وَهُوَ قَرِيبٌ.<br><small>(سفر إشعياء 55: 6)</small>',
+        'أَنْ يَطْلُبُوا الرَّبَّ لَعَلَّهُمْ يَتَلَمَّسُونَهُ فَيَجِدُوهُ.<br><small>(سفر أعمال الرسل 17: 27)</small>'
+    ]
+};
+    
 document.getElementById("shortcut").addEventListener("input", function() {
     if (!this.value.toUpperCase().startsWith("CTRL +")) {
         this.value = "CTRL + ";
@@ -124,20 +147,24 @@ document.getElementById("shortcut").addEventListener("input", function() {
         }
 
         // استخراج أول حرف واختيار الآية المناسبة
-        let typedText = rawInput.replace(/^CTRL\s*\+\s*/i, "").trim();
-        let firstChar = typedText.charAt(0).toLowerCase();
-        let versesList = versesMap[firstChar];
-let selectedVerse = "";
+      let typedText = rawInput.replace(/CTRL/i, "").replace(/\+/g, "").trim();
+    let firstChar = typedText.charAt(0).toLowerCase();
 
-if (versesList && versesList.length > 0) {
-    let randomIndex = Math.floor(Math.random() * versesList.length);
-    selectedVerse = versesList[randomIndex];
-}
-if (selectedVerse) {
-        document.getElementById("result").innerHTML = "<p>" + selectedVerse + "</p>";
+    let versesList = versesMap[firstChar];
+    let selectedVerse = "";
+
+    if (versesList && versesList.length > 0) {
+        if (Array.isArray(versesList)) {
+            let randomIndex = Math.floor(Math.random() * versesList.length);
+            selectedVerse = versesList[randomIndex];
+        } else {
+            selectedVerse = versesList;
+        }
     } else {
-        document.getElementById("result").innerHTML = "<p>جرب حروف من ال shortcuts</p>";
+        selectedVerse = "جرب حروف من الـ shortcuts";
     }
+
+    document.getElementById("result").innerHTML = "<p>" + selectedVerse + "</p>";
 
     shortcutInput.value = "CTRL +";
     shortcutInput.blur();
